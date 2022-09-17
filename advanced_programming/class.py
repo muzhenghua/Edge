@@ -2,7 +2,8 @@ import os
 
 
 class function:
-    _list=[]
+    _list = []
+
     def __init__(self, a):
         self.a = a
         pass
@@ -21,7 +22,8 @@ class function:
     @classmethod
     def get_info_class_method(cls):
         # print(self.a) # 报错
-        cls.__get_info_private()# 会报错missing 1 required positional argument: 'self' 
+        # 会报错missing 1 required positional argument: 'self'
+        cls.__get_info_private()
         print(cls.get_info('ss'))
         print('class method')
 
@@ -67,26 +69,34 @@ class function:
 # print(func._list)
 # print(func1._list)
 
+
 def get_pararmeter(*args, **kwargs):
     print(args) # 不定长参数，他可以表示输入参数是不确定的，可以是任意多个。
     print(kwargs) # 关键字参数，赋值的时候是以键= 值的方式
 
-get_pararmeter(['ss','ss'])
+
+get_pararmeter(['ss', 'ss'])
 
 a = 1
 c = [a]
 a = 2
 print(c)
 print(dir(a))
-ab = [lambda x: x*x [0,1,2]]
+ab = [lambda x: x * x[0, 1, 2]]
 print(ab)
+
+
 def multipliers1():
     # 闭包,返回的四个函数， 
     a = [lambda x: i * x for i in range(4)]
     print(a)
     print('=====')
     return a
+
+
 a = multipliers1()
 for i in a:
     print(i(10))
+
+
 # print([m(2) for m in a])
