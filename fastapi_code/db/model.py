@@ -1,17 +1,25 @@
-from sqlalchemy import create_engine, text, MetaData, Table, Column, Integer, String, ForeignKey
+from sqlalchemy import create_engine, text, MetaData, Table, Column, Integer, String, ForeignKey, ARRAY
 
 # 数据库类型
-from sqlalchemy.orm import Session, registry, declarative_base, relationship
+from sqlalchemy.orm import Session, declarative_base, relationship
 
-mymapper_registry = registry()
+# mymapper_registry = registry()
 Base = declarative_base()
+
+
+class Resource(Base):
+    __tablename__ = "RESOURCE"
+    uuid = Column(Integer, primary_key=True)
+    name = Column(String(64))
+    children_uuids = Column(ARRAY(String))
 
 
 class User(Base):
     __tablename__ = 'user_account'
     id = Column(Integer, primary_key=True)
-    name = Column(String(30))
-    fullname = Column(String(64))
+    uuids = Column(ARRAY(String))
+    name = Column(ARRAY(String))
+    fullname = Column(String)
     addresses = relationship("Address", back_populates="user")
 
     def __repr__(self):

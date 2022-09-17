@@ -1,38 +1,33 @@
-import sqlalchemy
-from sqlalchemy import create_engine, text, MetaData, Table, Column, Integer, String, ForeignKey
+from datetime import datetime
 
+from sqlalchemy import text, MetaData, Table, Column, Integer, String, ARRAY
+import uuid
 # 数据库类型
-from sqlalchemy.orm import Session, registry, declarative_base, relationship
+from sqlalchemy.orm import Session
 
-from fastapi_code.fastapi_db.model import Base
+from fastapi_code.common.db_session import DatabaseMysql
+from fastapi_code.db.model import User, Resource
 
-DIALCT = "mysql"
+print(datetime.now())
 
-# 数据库驱动
-DRIVER = "pymysql"
+database = DatabaseMysql()
+engine = database.get_engine()
 
-# 数据库用户名
-USERNAME = "root"
 
-# 数据库密码
-PASSWORD = "123456"
+uuid_list = [str(uuid.uuid4()), str(uuid.uuid4())]
+print(uuid_list)
 
-# 服务器IP地址
-HOST = "127.0.0.1"
+insert_database = {
+    "uuid": str(uuid.uuid4()),
+    "name": "mzx",
+    "children_uuids": uuid_list
+}
 
-# 端口号，默认3306
-PORT = "3306"
 
-# 数据库名
-DATABASE = "python"
-
-DB_URI = "{}+{}://{}:{}@{}:{}/{}"
-charset = DB_URI.format(DIALCT, DRIVER, USERNAME, PASSWORD, HOST, PORT, DATABASE)
-
-print(charset)
-# 创建数据库引擎
-
-engine = create_engine(charset)
+with database.session() as session:
+    session.merge(Resource(**insert_database))
+    # user = session.query(User).filter(User.name.like("minmax")).first()
+    # print(user.name)
 
 
 def insert_sql(engine):
@@ -88,29 +83,32 @@ def sql_model_update(metadata_obj):
     print(user_table.c.keys())
 
 
-def create_table_into_databse():
-    global metadata_obj
-    metadata_obj = MetaData()
-    sql_model(metadata_obj)
+def create_table_database():
+    meta = MetaData()
+    Table(
+        "RESOURCE",
+        meta,
+        Column("uuid", Integer, primary_key=True),
+        Column("name", String(64)),
+        Column("children_uuids", String(256))
+    )
     # create_all通过该对象传入数据库，创建表，如果不存在则创建，如果存在则不创建
-    metadata_obj.create_all(engine)
+    meta.create_all(engine)
     # drop_all 通过该对象传入数据库，删除表
-    metadata_obj.drop_all(engine)
+    # metadata_obj.drop_all(engine)
 
 
+# create_table_database()
 # create_table_into_databse()
-metadata_obj = MetaData()
-sql_model_update(metadata_obj)
-
-
-
+# metadata_obj = MetaData()
+# sql_model_update(metadata_obj)
 # emit CREATE statements given ORM registry
-mapper_registry.metadata.create_all(engine)
+# mapper_registry.metadata.create_all(engine)
 
 # the identical MetaData object is also present on the
 # declarative base 继承base的表如果不存则创建
-Base.metadata.create_all(engine)
-
+# Base.metadata.create_all(engine)
+#
 # sandy = User(name="sandy", fullname="Sandy Cheeks")
 # mapper_registry = registry()
 # Base = mapper_registry.generate_base()
@@ -130,6 +128,4 @@ Base.metadata.create_all(engine)
 #
 #     def __repr__(self):
 #         return f"Address({self.email_address!r})"
-
-print("sss")
 # print(sandy.addresses)
