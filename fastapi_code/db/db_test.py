@@ -15,7 +15,6 @@ engine = database.get_engine()
 
 
 uuid_list = [str(uuid.uuid4()), str(uuid.uuid4())]
-print(uuid_list)
 
 insert_database = {
     "uuid": str(uuid.uuid4()),
@@ -23,9 +22,16 @@ insert_database = {
     "children_uuids": uuid_list
 }
 
+with database.get_engine().connect() as conn:
+    res = conn.execute((text("SELECT 'hello world'")))
+    conn.execute()
+    res = conn.execute((text("SELECT 'hello world'")))
+    # [('hello world',)]
+    print(res.all())
 
-with database.session() as session:
-    session.merge(Resource(**insert_database))
+
+# with database.session() as session:
+#     session.merge(Resource(**insert_database))
     # user = session.query(User).filter(User.name.like("minmax")).first()
     # print(user.name)
 

@@ -88,3 +88,7 @@ class DatabaseMysql:
 
     def get_engine(self):
         return self._engine
+
+
+database = DatabaseMysql()
+__all__ = ['database']
