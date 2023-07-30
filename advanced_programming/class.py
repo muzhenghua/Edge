@@ -41,8 +41,8 @@ class function:
 
     # 内部函数,仅供内部调用。函数外部无法直接使用，但是可通过调用内部函数间接调用
     def __get_info_private(self):
-        print(self.a+' private method')
-        return self.a+'private method'
+        print(self.a + ' private method')
+        return self.a + 'private method'
 
     # 类变量在类里面共享值，被修改后其他地方使用值也会被修改
     def modify_v_a(self):
@@ -71,8 +71,8 @@ class function:
 
 
 def get_pararmeter(*args, **kwargs):
-    print(args) # 不定长参数，他可以表示输入参数是不确定的，可以是任意多个。
-    print(kwargs) # 关键字参数，赋值的时候是以键= 值的方式
+    print(args)  # 不定长参数，他可以表示输入参数是不确定的，可以是任意多个。
+    print(kwargs)  # 关键字参数，赋值的时候是以键= 值的方式
 
 
 get_pararmeter(['ss', 'ss'])
@@ -97,6 +97,5 @@ def multipliers1():
 a = multipliers1()
 for i in a:
     print(i(10))
-
 
 # print([m(2) for m in a])

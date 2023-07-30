@@ -32,8 +32,8 @@ with database.get_engine().connect() as conn:
 
 # with database.session() as session:
 #     session.merge(Resource(**insert_database))
-    # user = session.query(User).filter(User.name.like("minmax")).first()
-    # print(user.name)
+#     user = session.query(User.id).filter(User.name.like("mzx")).first()
+#     print(user)
 
 
 def insert_sql(engine):

@@ -48,6 +48,7 @@ class MysqlDatabaseConfigEnum(str, Enum):
 
 class Settings(BaseSettings):
     ENCODING: str = os.getenv("ENCODING", "utf-8")
+    # 是否输出sql
     MYSQL_ECHO: bool = os.getenv("MYSQL_ECHO", "False").lower() == "true"
     MYSQL_POOL_SIZE: int = int(os.getenv("MYSQL_POOL_SIZE", "100"))
 
